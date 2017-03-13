@@ -14,8 +14,11 @@ let gameBoard = null;
 let player1 = null;
 let player2 = null;
 let currentPlayer = null;
+let won = null;
+let playedMoves= [];
 
 let makeBoard = function(gridSize){
+    won = false;
     let board = [];
     let n = gridSize;
 
@@ -45,9 +48,13 @@ let makeBoard = function(gridSize){
 
 gameBoard = board;
 
+console.log('Who is player 1 and player 2? \n');
+
 prompt.get(['player1name', 'player2name'], function (err, ans) {
     player1 = ans.player1name;
+    player1.mark = 'X'
     player2 = ans.player2name;
+    player2.mark = 'O'
 
     console.log('Here is the new board');
     renderBoard();
@@ -58,14 +65,46 @@ prompt.get(['player1name', 'player2name'], function (err, ans) {
 
 }
 
+function toggleBoard(row, col){
+    if (currentPlayer === player1){
+        gameBoard[row][col].val = 'X';
+        playedMoves.push([row, col])
+    } else {
+        gameBoard[row][col].val = 'O';
+    }
+}
+
+function checkAvail(row, col) {
+    let move = JSON.stringify([row, col])
+    for (var i = 0; i < playedMoves.length; i++) {
+            if ( move === JSON.stringify(playedMoves[i])){
+                return false;
+            } else {
+                return true;
+            }
+    }
+}
 
 function playRound(player) {
-    console.log(player + ' your turn, where would you like to place your next move? Enter x, y coordinates')
+    console.log('It is your turn '+ currentPlayer +', where would you like to place your mark? Enter x, y coordinates \n')
     prompt.get(['row', 'col'], function (err, ans) {
-    renderBoard();
-    switchPlayer();
-    playRound
-});
+
+        if (checkAvail(ans.row, ans.col) === true){
+
+        toggleBoard(ans.row, ans.col)
+        switchPlayer();
+        renderBoard();
+
+            if (won === false){
+                playRound(currentPlayer)
+            } else {
+                console.log('Great job!')
+            }
+        } else {
+            console.log('Those coordinates have already been played, please try again');
+            playRound(currentPlayer);
+        }
+    });
 }
 
 function switchPlayer(){
