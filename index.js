@@ -13,6 +13,7 @@ const prompt = require('prompt')
 let gameBoard = null;
 let player1 = null;
 let player2 = null;
+let currentPlayer = null;
 
 let makeBoard = function(gridSize){
     let board = [];
@@ -24,8 +25,12 @@ let makeBoard = function(gridSize){
                 let node = {
                     x: i,
                     y: y,
-                    val: null,
-                    line: null
+                    val: '*',
+                    line: '|'
+                }
+
+                if(i === (n - 1)){
+                    node.line = '';
                 }
 
                 row.push(node)
@@ -38,29 +43,63 @@ let makeBoard = function(gridSize){
         board.push(newRow);
     }
 
-gameBoard = board
+gameBoard = board;
 
 prompt.get(['player1name', 'player2name'], function (err, ans) {
     player1 = ans.player1name;
     player2 = ans.player2name;
 
-console.log('Player 1, '+ans.player1name+', goes first! ');
-playRound(player1);
+    console.log('Here is the new board');
+    renderBoard();
+    console.log(ans.player1name+', goes first! \n');
+    currentPlayer = player1;
+    playRound(currentPlayer);
 });
 
 }
-
-prompt.get(['gridSize'], function (err, ans) {
-console.log('GAME ON! The grid will be: '+ans.gridSize+' x '+ans.gridSize);
-makeBoard(ans.gridSize)
-});
 
 
 function playRound(player) {
+    console.log(player + ' your turn, where would you like to place your next move? Enter x, y coordinates')
+    prompt.get(['row', 'col'], function (err, ans) {
     renderBoard();
-    console.log(player1 + ' your turn, where would you like to place your next move? Enter x, y coordinates')
-    prompt.get(['player1 Move'], function (err, ans) {
-        console.log(' inside player1 move')
-        // playRound(player1);
+    switchPlayer();
+    playRound
 });
 }
+
+function switchPlayer(){
+    if(currentPlayer === player1){
+        currentPlayer = player2;
+    } else {
+        currentPlayer = player1;
+    }
+}
+
+function renderBoard() {
+    let flPart = '--------------';
+
+    for (var i = 0; i < gameBoard.length; i++) {
+
+    let line = '';
+    let floor = '';
+
+        for (var j = 0; j < gameBoard[i].length; j++) {
+            line = line + '      ' + gameBoard[i][j].val + '      ' + gameBoard[i][j].line
+            floor = floor + flPart;
+        }
+
+    console.log(line);
+    console.log(floor)
+    }
+}
+
+
+//script starts here!
+console.log("Howdy! Let's start the game! \n")
+console.log("How large would you like the board to be? \nPlease enter a single digit. Entering 3 would give you a 3 x 3 board \n")
+
+prompt.get(['gridSize'], function (err, ans) {
+console.log('GAME ON! The grid will be: '+ans.gridSize+' x '+ans.gridSize+'\n');
+makeBoard(ans.gridSize)
+});
