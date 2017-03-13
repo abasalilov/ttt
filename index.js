@@ -1,3 +1,4 @@
+const prompt = require('prompt')
 // Implementation instructions
 // =======================
 // * Create the project from scratch. Don't just clone an existing project.
@@ -35,8 +36,9 @@ let makeBoard = function(gridSize){
         board.push(newRow);
     }
 
-    console.log('new Board', board)
 }
 
-makeBoard(3)
-
+prompt.get(['gridSize'], function (err, ans) {
+console.log('GAME ON! The grid will be: '+ans.gridSize+' x '+ans.gridSize);
+makeBoard(ans.gridSize)
+});
