@@ -42,3 +42,5 @@ prompt.get(['gridSize'], function (err, ans) {
 console.log('GAME ON! The grid will be: '+ans.gridSize+' x '+ans.gridSize);
 makeBoard(ans.gridSize)
 });
+
+once
