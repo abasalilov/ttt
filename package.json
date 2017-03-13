@@ -1,0 +1,25 @@
+{
+  "name": "tictactoe",
+  "version": "1.0.0",
+  "description": "cmd ln game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abasalilov/ttt.git"
+  },
+  "keywords": [
+    "tic",
+    "tac",
+    "toe",
+    "commandline"
+  ],
+  "author": "aleks basalilov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abasalilov/ttt/issues"
+  },
+  "homepage": "https://github.com/abasalilov/ttt#readme"
+}
